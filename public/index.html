@@ -89,6 +89,11 @@
             <form className="commentForm" onSubmit={this.handleSubmit}>
               <fieldset>
                 <legend>Enter a new comment</legend>
+                <div id="error-posting-comment" style={{display: 'none'}} className="alert alert-danger" role="alert">
+                  <span className="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                  <span className="sr-only">Error:</span>
+                  There was an error posting your comment. Please try again later.
+                </div>
                 <div className="form-group">
                   <label className="comment-author">Name</label>
                   <input
@@ -135,6 +140,10 @@
             });
         },
         handleCommentSubmit: function(comment) {
+          var comments = this.state.data;
+          comment.id = Date.now();
+          var newComments = comments.concat([comment]);
+          this.setState({data: newComments});
           $.ajax({
             url: this.props.url,
             dataType: 'json',
@@ -144,6 +153,12 @@
               this.setState({data: data});
             }.bind(this),
             error: function(xhr, status, err) {
+              var errorDiv = $('#error-posting-comment');
+              errorDiv.show();
+              setTimeout(function() {
+                errorDiv.fadeOut(this.props.errorFadeOutTime)
+              }.bind(this), this.props.errorDisplayTime);
+              this.setState({data: comments});
               console.error(this.props.url, status, err.toString());
             }.bind(this)
           });
@@ -163,14 +178,21 @@
               </div>
               <div className="panel-body">
                 <CommentList data={this.state.data} />
-                <CommentForm onCommentSubmit={this.handleCommentSubmit} />
+                <CommentForm
+                  onCommentSubmit={this.handleCommentSubmit}
+                />
               </div>
             </div>
           );
         }
       });
       ReactDOM.render(
-        <CommentBox url="/api/comments" pollInterval={2000} />,
+        <CommentBox
+          url="/api/comments"
+          pollInterval={2000}
+          errorDisplayTime={2000}
+          errorFadeOutTime={200}
+        />,
         document.getElementById('comment-box')
       );
     </script>

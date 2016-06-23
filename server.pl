@@ -24,6 +24,8 @@ any [qw(GET POST)] => '/api/comments' => sub {
 
   if ($self->req->method eq 'POST')
   {
+    # 20% chance to fail to simulate errors
+    return $self->render(text => 'Error', status => 500) if int(rand(5)) == 0;
     push @$comments, {
       id     => int(gettimeofday * 1000),
       author => $self->param('author'),
