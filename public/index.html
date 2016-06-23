@@ -12,10 +12,6 @@
   <body>
     <div id="content"></div>
     <script type="text/babel">
-      var data = [
-        {id: 1, author: "Pete Hunt", text: "This is one comment"},
-        {id: 2, author: "Jordan Walke", text: "This is *another* comment"}
-      ];
       var Comment = React.createClass({
         rawMarkup: function() {
           var md = new Remarkable();
@@ -70,7 +66,7 @@
         }
       });
       ReactDOM.render(
-        <CommentBox data={data} />,
+        <CommentBox url="/api/comments" />,
         document.getElementById('content')
       );
     </script>
