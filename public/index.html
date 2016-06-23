@@ -8,9 +8,28 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.min.js" charset="utf-8"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.0/jquery.min.js" charset="utf-8"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/remarkable/1.6.2/remarkable.min.js" charset="utf-8"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
   </head>
   <body>
-    <div id="content"></div>
+    <div class="container">
+      <div class="page-header">
+        <h1>Page of Awesomeness <small>React Is Cool</small></h1>
+      </div>
+      <article>
+        <header>
+          <h2>Example Entry</h2>
+        </header>
+        <p class="lead">Lorem ipsum dit dolor amet.</p>
+        <p>こんにちは、これは私のページです。</p>
+        <p>More text</p>
+        <p>Please comment</p>
+        <div id="comment-box"></div>
+      </article>
+    </div>
     <script type="text/babel">
       var Comment = React.createClass({
         rawMarkup: function() {
@@ -20,10 +39,10 @@
         },
         render: function() {
           return (
-            <div className="comment">
-              <h2 className="commentAuthor">
+            <div className="comment well well-sm">
+              <p className="commentAuthor h4">
                 {this.props.author}
-              </h2>
+              </p>
               <span dangerouslySetInnerHTML={this.rawMarkup()} />
             </div>
           );
@@ -68,22 +87,35 @@
         render: function() {
           return (
             <form className="commentForm" onSubmit={this.handleSubmit}>
-              <input
-                type="text"
-                placeholder="Your name"
-                value={this.state.author}
-                onChange={this.handleAuthorChange}
-              />
-              <input
-                type="text"
-                placeholder="Say something..."
-                value={this.state.text}
-                onChange={this.handleTextChange}
-              />
-              <input
-                type="submit"
-                value="Post"
-              />
+              <fieldset>
+                <legend>Enter a new comment</legend>
+                <div className="form-group">
+                  <label className="comment-author">Name</label>
+                  <input
+                    className="form-control"
+                    id="comment-author"
+                    type="text"
+                    value={this.state.author}
+                    onChange={this.handleAuthorChange}
+                  />
+                </div>
+                <div className="form-group">
+                  <label for="comment-text">Comment</label>
+                  <input
+                    className="form-control"
+                    id="comment-text"
+                    type="text"
+                    placeholder="Say something..."
+                    value={this.state.text}
+                    onChange={this.handleTextChange}
+                  />
+                </div>
+                <input
+                  className="btn btn-primary"
+                  type="submit"
+                  value="Post"
+                />
+              </fieldset>
             </form>
           );
         }
@@ -125,17 +157,21 @@
         },
         render: function() {
           return (
-            <div className="commentBox">
-              <h1>Comments</h1>
-              <CommentList data={this.state.data} />
-              <CommentForm onCommentSubmit={this.handleCommentSubmit} />
+            <div className="commentBox panel panel-primary">
+              <div className="panel-heading">
+                <h3 className="panel-title">Comments</h3>
+              </div>
+              <div className="panel-body">
+                <CommentList data={this.state.data} />
+                <CommentForm onCommentSubmit={this.handleCommentSubmit} />
+              </div>
             </div>
           );
         }
       });
       ReactDOM.render(
         <CommentBox url="/api/comments" pollInterval={2000} />,
-        document.getElementById('content')
+        document.getElementById('comment-box')
       );
     </script>
   </body>
