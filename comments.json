@@ -1,12 +1,1 @@
-[
-  {
-    "id": 1,
-    "author": "Ed",
-    "text": "Big Al says so."
-  },
-  {
-    "id": 2,
-    "author": "Shaun",
-    "text": "Yeah, but Big Al says dogs can't look up!"
-  }
-]
+[{"author":"Ed","id":1,"text":"Big Al says so."},{"author":"Shaun","id":2,"text":"Yeah, but Big Al says dogs can't look up!"},{"author":"Thomas Kuyper","id":1466654055437,"text":"This comment was added via React"}]
